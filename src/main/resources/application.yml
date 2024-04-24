@@ -1,5 +1,5 @@
-server:
-    port: 8087
 spring:
     application:
         name: token-service
+server:
+    port: 8080
