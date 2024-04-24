@@ -26,7 +26,7 @@ public class TokenControllerIntegrationTest {
 
     @Test
     public void testValidToken() {
-        final TokenDomain tokenDomain = JwtUtil.generateTokenDomain("NewUsername", SECRET);
+        final TokenDomain tokenDomain = JwtUtil.generateTokenDomain("NewUserName", SECRET);
         String url = HOST + port + PATH;
 
         ResponseEntity<String> response = restTemplate.postForEntity(url, tokenDomain, String.class);
