@@ -1,4 +1,4 @@
-package com.silvasoft.tokenservice.presentation;
+package com.silvasoft.tokenservice.presentation.handler;
 
 import com.silvasoft.tokenservice.domain.TokenValidationException;
 import com.silvasoft.tokenservice.presentation.dto.TokenErrorResponse;
@@ -38,13 +38,16 @@ public class TokenErrorHandler {
     }
 
     @ExceptionHandler(value = {TokenValidationException.class})
-    public ResponseEntity<TokenErrorResponse> invalidToken(MethodArgumentNotValidException ex) {
-        return getTokenErrorResponseResponseEntity(ex);
+    public ResponseEntity<TokenErrorResponse> invalidToken(TokenValidationException ex) {
+        TokenErrorResponse res = new TokenErrorResponse();
+        res.setMessage(ObjectUtils.isEmpty(ex.getMessage()) ? "" : ex.getMessage());
+        res.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+
     }
 
     private ResponseEntity<TokenErrorResponse> getTokenErrorResponseResponseEntity(final MethodArgumentNotValidException ex) {
         TokenErrorResponse res = new TokenErrorResponse();
-        res.setMessage(ObjectUtils.isEmpty(ex.getMessage()) ? "" : ex.getMessage().substring(ex.getMessage().lastIndexOf(";")));
         res.setMessage(ex.getBindingResult().getFieldError("value").getDefaultMessage());
         res.setStatusCode(HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);

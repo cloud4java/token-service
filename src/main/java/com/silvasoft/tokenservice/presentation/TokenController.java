@@ -1,7 +1,6 @@
 package com.silvasoft.tokenservice.presentation;
 
 import com.silvasoft.tokenservice.domain.TokenClaimException;
-import com.silvasoft.tokenservice.domain.TokenValidationException;
 import com.silvasoft.tokenservice.presentation.dto.TokenRequest;
 import com.silvasoft.tokenservice.service.TokenValidationService;
 import jakarta.validation.Valid;
@@ -21,13 +20,13 @@ public class TokenController {
     private TokenValidationService tokenValidationService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> validate(@Valid @RequestBody TokenRequest tokenRequest) {
+    public ResponseEntity<Boolean> validate(@Valid @RequestBody TokenRequest tokenRequest)  {
         try {
-            tokenValidationService.isValidToken(tokenRequest.getValue());
+            tokenValidationService.isValidToken(tokenRequest.tokenDomain());
         } catch (TokenClaimException e) {
-            throw new TokenValidationException(e.getMessage(), e);
+            return ResponseEntity.badRequest().body(false);
         }
 
-        return ResponseEntity.ok().body(false);
+        return ResponseEntity.ok().body(true);
     }
 }
