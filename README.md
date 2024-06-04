@@ -7,7 +7,7 @@
 * * Gradle 8
 * * Spring-boot 3.5
 
-### Gneratin token
+### Generating token
 * Generate token and signature using the utility class below``` JwtUtil ```
 * Fill the name for token or ENTER to exit
 ```java
@@ -27,8 +27,7 @@ import java.util.Scanner;
 public class JwtUtil {
     public static final int SEED = 9533;
     private JwtUtil(){}
-    public static final String SECRET = "de90b0b14b014073a76b61340c39da0cde90b0b14b014073a76b61340c39da0c";
-
+    public static final String SECRET = System.getenv("SECRET");
     public static void main(String[] args) {
 
         System.out.println("\nFill the name for token or <ENTER> to exit:");
